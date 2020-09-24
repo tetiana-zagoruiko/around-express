@@ -5,10 +5,13 @@ const cardsRouter = express.Router();
 const pathtoData = path.join(__dirname, '..', 'data', 'cards.json');
 
 
-function getFileContent(path) {
-  return fs.readFile(path, { enconding: 'utf-8' })
+function getFileContent(pathtoCardsData) {
+  return fs.readFile(pathtoCardsData, { enconding: 'utf-8' })
     .then(JSON.parse)
-    .catch(console.log)
+    .catch(err => {
+      err.statusCode = 500;
+      console.log('There was an error', err.statusCode);
+    });
 }
 
 cardsRouter.get('/', (req, res) => {
